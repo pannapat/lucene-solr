@@ -10,8 +10,17 @@
 function processAdd(cmd) {
 
   doc = cmd.solrDoc;  // org.apache.solr.common.SolrInputDocument
-  id = doc.getFieldValue("id");
-  logger.info("update-script#processAdd: id=" + id);
+  var d = new Date(parseInt(doc.getFieldValue("revisionTime")));
+  revisionTime = d.toISOString();
+  doc.setField("revisionTime",revisionTime);
+  logger.info("update-script#processAdd: revisionTime=" + revisionTime);
+  
+  
+  firstCreateTime = doc.getFieldValue("firstCreateTime");
+  var d = new Date(parseInt(doc.getFieldValue("firstCreateTime")));
+  firstCreateTime = d.toISOString();
+  doc.setField("firstCreateTime",firstCreateTime);
+  logger.info("update-script#processAdd: firstCreateTime=" + firstCreateTime);
 
 // Set a field value:
 //  doc.setField("foo_s", "whatever");
